@@ -33,6 +33,14 @@ This theme can be ran locally using Ruby and Gemfiles.
 
 [Testing your GitHub Pages site locally with Jekyll](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll) - GitHub
 
+## Full-text search
+
+The jekyll-gitbook theme support a "Search" page that enables visitors to search contents
+from the whole site. The search functionality is powered by [jekyll-tipue-search][5] can you
+can try it from:
+
+[https://sighingnow.github.io/jekyll-gitbook/search/?q=generated](https://sighingnow.github.io/jekyll-gitbook/search/?q=generated)
+
 ## How to generate TOC
 
 The jekyll-gitbook theme leverages [jekyll-toc][4] to generate the *Contents* for the page.
@@ -54,3 +62,4 @@ Copyright 2019 Tao He.
 [2]: https://pages.github.com/themes
 [3]: https://github.com/sighingnow/jekyll-gitbook/fork
 [4]: https://github.com/allejo/jekyll-toc
+[5]: https://github.com/jekylltools/jekyll-tipue-search
