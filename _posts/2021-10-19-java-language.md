@@ -7,6 +7,6 @@ layout: post
 ---
 
 ## Язык программирования Java
-{: .no_toc }
+{: .no_toc .text-delta}
 
 Язык программирования Java был создан в 1995 году группой специалистов компании "Sum Microsystems".
