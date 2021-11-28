@@ -1,10 +1,9 @@
 ---
 title: Введение
 author: Evgeniy Vangula
-date: 2021-10-19
+date: 2019-04-25
 category: java
 layout: post
-nav_order: 2
 ---
 
 ## Язык программирования Java
