@@ -14,7 +14,6 @@ layout: post
 ## DVDManagement
 
 ### Описание
-{: .no_toc }
 
 [Ссылка на источник на _GitHub_](https://github.com/eliaskone/Java-SQLite-GUI)
 
@@ -33,6 +32,7 @@ or change entries in the database. The data inside the database is visualy shown
 ```java
 //https://github.com/eliaskone/Java-SQLite-GUI
 package sample.net.sqlitetutorial;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -43,49 +43,63 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
 public class GUI extends Application {
-    TableView<sample.net.sqlitetutorial.DVDReturn> tableView = new TableView<>();
+    TableView<DVDReturn> tableView = new TableView<>();
     int int1, int2;
     String str1, str2;
+
     @Override
     public void start(Stage primaryStage) {
-        sample.net.sqlitetutorial.TableFunctions tableFunctions = new sample.net.sqlitetutorial.TableFunctions();
+        TableFunctions tableFunctions = new TableFunctions();
         Connection connection = tableFunctions.connect();
         TableFunctions.createNewTable();
+
         tableView.setEditable(true);
+
         TableColumn id_colum = new TableColumn("id");
         TableColumn titel_colum = new TableColumn("titel");
         TableColumn director_colum = new TableColumn("director");
         TableColumn year_colum = new TableColumn("year");
+
         Stage stage = primaryStage;
         HBox hBox = new HBox();
+
         Button buttonAdd = new Button("New entry");
         Button buttonDel = new Button("Delete entry");
         buttonAdd.setMinSize(100,50);
         buttonDel.setMinSize(100,50);
         VBox vBox = new VBox(buttonAdd, buttonDel);
+
         ResultSet DataresultSet = tableFunctions.getData(connection);
+
         tableView.getColumns().addAll(id_colum, titel_colum, director_colum, year_colum);
-        ArrayList <sample.net.sqlitetutorial.DVDReturn> dvdData = tableFunctions.createDVDList(DataresultSet);
+        ArrayList <DVDReturn> dvdData = tableFunctions.createDVDList(DataresultSet);
         tableView.getItems().addAll(dvdData);
-        id_colum.setCellValueFactory(new PropertyValueFactory<sample.net.sqlitetutorial.DVDReturn, Integer>("id"));
-        titel_colum.setCellValueFactory(new PropertyValueFactory<sample.net.sqlitetutorial.DVDReturn, String>("titel"));
-        director_colum.setCellValueFactory(new PropertyValueFactory<sample.net.sqlitetutorial.DVDReturn, String>("director"));
-        year_colum.setCellValueFactory(new PropertyValueFactory<sample.net.sqlitetutorial.DVDReturn, Integer>("year"));
+
+        id_colum.setCellValueFactory(new PropertyValueFactory<DVDReturn, Integer>("id"));
+        titel_colum.setCellValueFactory(new PropertyValueFactory<DVDReturn, String>("titel"));
+        director_colum.setCellValueFactory(new PropertyValueFactory<DVDReturn, String>("director"));
+        year_colum.setCellValueFactory(new PropertyValueFactory<DVDReturn, Integer>("year"));
+
         buttonAdd.setOnAction(e->{
             Button btnConfirm = new Button("Confirm");
+
             TextField txtid = new TextField();
             TextField txtTitel = new TextField();
             TextField txtDirector = new TextField();
             TextField txtYear = new TextField();
+
             Label lblId = new Label("ID");
             Label lblTitel = new Label("Titel");
             Label lblDirector = new Label("Director");
             Label lblYear = new Label("Year");
             Label lblSpace = new Label("");
+
             Dialog dialog = new Dialog();
             DialogPane dialogPane = new DialogPane();
             dialog.setDialogPane(dialogPane);
@@ -94,15 +108,17 @@ public class GUI extends Application {
                     new HBox(lblSpace), new HBox(btnConfirm)));
            dialogPane.getButtonTypes().add(new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE));
            dialog.show();
+
            btnConfirm.setOnAction(event -> {
                try {
                    int1 = Integer.valueOf(txtid.getText());
                    str1 = txtTitel.getText();
                    str2 = txtDirector.getText();
                    int2 = Integer.valueOf(txtYear.getText());
-                   sample.net.sqlitetutorial.DVDReturn dvdReturn = new sample.net.sqlitetutorial.DVDReturn(int1, str1, str2, int2);
-                   sample.net.sqlitetutorial.TableFunctions.dvdArray.add(dvdReturn);
-                   sample.net.sqlitetutorial.TableFunctions.updateRow(int1, str1, str2, int2);
+
+                   DVDReturn dvdReturn = new DVDReturn(int1, str1, str2, int2);
+                   TableFunctions.dvdArray.add(dvdReturn);
+                   TableFunctions.updateRow(int1, str1, str2, int2);
                    tableView.getItems().add(dvdReturn);
                }
                catch (NumberFormatException String){
@@ -116,6 +132,7 @@ public class GUI extends Application {
                }
            });
         });
+
         buttonDel.setOnAction(event -> {
             Label label = new Label("Do you really want to delete that Entry?");
             Dialog dialog = new Dialog();
@@ -124,13 +141,17 @@ public class GUI extends Application {
             Button btncnfm = new Button("Confirm");
             dialogPane.setContent(new VBox(4, new HBox(label), new HBox(btncnfm)));
             dialogPane.getButtonTypes().add(new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE));
+
             dialog.show();
+
             btncnfm.setOnAction(event1 -> {
-                sample.net.sqlitetutorial.TableFunctions.delete(tableView.getSelectionModel().getSelectedItem().getId());
-                sample.net.sqlitetutorial.DVDReturn slctedentry = tableView.getSelectionModel().getSelectedItem();
+                TableFunctions.delete(tableView.getSelectionModel().getSelectedItem().getId());
+                DVDReturn slctedentry = tableView.getSelectionModel().getSelectedItem();
                 tableView.getItems().remove(slctedentry);
             });
+
         });
+
         titel_colum.setCellFactory(TextFieldTableCell.forTableColumn());
         titel_colum.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent>() {
             @Override
@@ -146,6 +167,7 @@ public class GUI extends Application {
             }
         });
         hBox.getChildren().addAll(tableView, vBox);
+
         Scene scene = new Scene(hBox);
         Image Icon = new Image(getClass().getResourceAsStream("database3.png"));
         stage.setScene(scene);
@@ -153,20 +175,22 @@ public class GUI extends Application {
         stage.getIcons().add(Icon);
         stage.show();
     }
-    public void EditValues(TableColumn.CellEditEvent<sample.net.sqlitetutorial.DVDReturn, String> dvdStringCellEditEvent, String type){
+
+    public void EditValues(TableColumn.CellEditEvent<DVDReturn, String> dvdStringCellEditEvent, String type){
         try {
-            sample.net.sqlitetutorial.DVDReturn dvd = tableView.getSelectionModel().getSelectedItem();
+            DVDReturn dvd = tableView.getSelectionModel().getSelectedItem();
             String newVal = dvdStringCellEditEvent.getNewValue();
             if(type == "titel") {
-                sample.net.sqlitetutorial.TableFunctions.update("titel", newVal, dvd.getId());
+                TableFunctions.update("titel", newVal, dvd.getId());
                 dvd.setTitel(newVal);}
             else if(type == "director"){
-                sample.net.sqlitetutorial.TableFunctions.update("director", newVal, dvd.getId());
+                TableFunctions.update("director", newVal, dvd.getId());
                 dvd.setDirector(newVal);}
         }catch (Exception e){
             e.printStackTrace();
         }
     }
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -176,7 +200,6 @@ public class GUI extends Application {
 ---
 
 ### Класс TableFunctions (файл _TableFunctions.java_)
-{: .no_toc }
 
 ```java
 package sample.net.sqlitetutorial;
@@ -275,7 +298,6 @@ public class TableFunctions {
 ---
 
 ### Класс DVDReturn (файл _DVDReturn.java_)
-{: .no_toc }
 
 ```java
 package sample.net.sqlitetutorial;
