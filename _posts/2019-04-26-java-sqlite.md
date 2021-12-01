@@ -203,19 +203,20 @@ public class GUI extends Application {
 
 ```java
 package sample.net.sqlitetutorial;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
+
 public class TableFunctions {
     static Path currentRelativePath = Paths.get("");
     static String s = currentRelativePath.toAbsolutePath().toString();
-    static ArrayList<sample.net.sqlitetutorial.DVDReturn>dvdArray = new ArrayList<>();
+    static ArrayList<DVDReturn>dvdArray = new ArrayList<>();
     static ResultSet resultSet = null;
 	
     public static Connection connect() {
         // SQLite connection string
-        //String url = "jdbc:sqlite:"+s+"\\src\\sample\\net\\sqlitetutorial\\dvd.db";
         String url = "jdbc:sqlite:"+s+"\\sample\\net\\sqlitetutorial\\dvd.db";
         Connection connection = null;
         try {
@@ -226,25 +227,32 @@ public class TableFunctions {
         }
         return connection;
     }
+
     public static void delete(int id) {
         String sql = "DELETE FROM DVD WHERE id = ?";
+
         try (Connection connect = connect();
              PreparedStatement del = connect.prepareStatement(sql)) {
             del.setInt(1, id);
             del.executeUpdate();
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+
     public static void updateRow(int id, String titel, String director, int year){
         String sql = "INSERT INTO DVD VALUES('"+id+"', '"+titel+"', '"+director+"', '"+year+"')";
+
         try (Connection connect = connect();
              PreparedStatement updateRow = connect.prepareStatement(sql)){
             updateRow.executeUpdate();
+
         }catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+
     public static void update(String index, String content, int id) {
         String sql = "UPDATE dvd SET "+index+"='"+content+"' WHERE id='"+id+"';";
         try (Connection connect = connect();
@@ -254,9 +262,10 @@ public class TableFunctions {
             System.out.println(e.getMessage());
         }
     }
+
     public static void createNewTable() {
-        //String url = "jdbc:sqlite:"+s+"\\src\\sample\\net\\sqlitetutorial\\dvd.db";
         String url = "jdbc:sqlite:"+s+"\\sample\\net\\sqlitetutorial\\dvd.db";
+
         String sql = "CREATE TABLE IF NOT EXISTS DVD (\n"
                 + "	id integer PRIMARY KEY,\n"
                 + "	titel text NOT NULL,\n"
@@ -271,6 +280,7 @@ public class TableFunctions {
             System.out.println(e.getMessage());
         }
     }
+    
     public static ResultSet getData(Connection connection){
         String sql = "Select * from DVD";
         try {
@@ -282,15 +292,16 @@ public class TableFunctions {
         }
         return resultSet;
     }
-    public static ArrayList<sample.net.sqlitetutorial.DVDReturn> createDVDList(ResultSet resultSet){
-            try {
-                while (resultSet.next()){
-                    dvdArray.add(new sample.net.sqlitetutorial.DVDReturn(resultSet.getInt(1),resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4)));
-                }
-            }catch (SQLException e){
-                e.printStackTrace();
+
+    public static ArrayList<DVDReturn> createDVDList(ResultSet resultSet){
+        try {
+            while (resultSet.next()){
+                dvdArray.add(new DVDReturn(resultSet.getInt(1),resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4)));
             }
-        return dvdArray;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    	return dvdArray;
     }
 }
 ```
@@ -301,25 +312,52 @@ public class TableFunctions {
 
 ```java
 package sample.net.sqlitetutorial;
+
 import java.util.ArrayList;
+
 public class DVDReturn {
     int id;
     String titel;
     String director;
     int year;
+    
     DVDReturn(int id, String titel, String director, int year){
         this.id = id;
         this.titel = titel;
         this.director = director;
         this.year = year;
     }
-    public int getId(){return this.id;}
-    public String getTitel(){return this.titel;}
-    public String getDirector(){return this.director;}
-    public int getYear(){return this.year;}
-    public void setId(int id){this.id = id;}
-    public void setTitel(String titel){this.titel = titel;}
-    public void setDirector(String director){this.director = director;}
-    public void setYear(int year){this.year = year;}
+    
+    public int getId(){
+    	return this.id;
+    }
+    
+    public String getTitel(){
+    	return this.titel;
+    }
+    
+    public String getDirector(){
+    	return this.director;
+    }
+    
+    public int getYear(){
+    	return this.year;
+    }
+    
+    public void setId(int id){
+    	this.id = id;
+    }
+    
+    public void setTitel(String titel){
+    	this.titel = titel;
+    }
+    
+    public void setDirector(String director){
+    	this.director = director;
+    }
+    
+    public void setYear(int year){
+    	this.year = year;
+    }
 }
 ```
