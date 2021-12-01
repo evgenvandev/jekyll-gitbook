@@ -29,7 +29,6 @@ or change entries in the database. The data inside the database is visualy shown
 ---
 
 ### Класс GUI (файл _GUI.java_) с методом main
-{: .no_toc }
 
 ```java
 //https://github.com/eliaskone/Java-SQLite-GUI
