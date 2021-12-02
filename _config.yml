@@ -36,6 +36,8 @@ kramdown:
   syntax_highlighter:     rouge
   syntax_highlighter_opts:
     guess_lang:           true
+    block:
+      line_numbers:       true
 
 markdown_ext:     markdown,mkdown,mkdn,mkd,md
 
