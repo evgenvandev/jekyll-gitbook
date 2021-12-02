@@ -1,7 +1,7 @@
 ---
 title: Java and SQLite
 author: Evgeniy Vangula
-date: 2019-04-25 23:10:00
+date: 2019-04-25 23:00:00
 category: java-sqlite
 layout: post
 ---
